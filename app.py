@@ -1,8 +1,8 @@
 from flask import Flask
-import os
 import subprocess
-import sys
 import yaml
+import sys
+import os
 
 ABS_PATH = os.path.dirname(__file__)
 CONFIG_FILE = 'config.yaml'
@@ -15,27 +15,35 @@ def load_config(config_file):
     return config
 
 
-def craft_command(input, config):
+def craft_command(x, config):
     buffer = ''
-    if len(input) > 0 and input[0] in config['commands'].keys():
-        if isinstance(config['commands'][input[0]], dict) and ALL_KEYWORD in config['commands'][input[0]].keys():
-            buffer += config['commands'][input[0]][ALL_KEYWORD] + ' '
-        if len(input) > 1 and input[1] in config['commands'][input[0]].keys():
-            if isinstance(config['commands'][input[0]][input[1]], dict) and ALL_KEYWORD in config['commands'][input[0]][input[1]].keys():
-                buffer += config['commands'][input[0]][input[1]][ALL_KEYWORD] + ' '
-            if len(input) > 2 and input[2] in config['commands'][input[0]][input[1]].keys():
-                if isinstance(config['commands'][input[0]][input[1]][input[2]], dict) and ALL_KEYWORD in config['commands'][input[0]][input[1]][input[2]].keys():
-                    buffer += config['commands'][input[0]][input[1]][input[2]][ALL_KEYWORD] + ' '
+    c = config['commands']
+    if len(x) > 0 and x[0] in c.keys():
+        c = c[x[0]]
+        if isinstance(c, dict) and ALL_KEYWORD in c.keys():
+            buffer += c[ALL_KEYWORD] + ' '
+        if len(x) > 1 and x[1] in c.keys():
+            c = c[x[1]]
+            if isinstance(c, dict) and ALL_KEYWORD in c.keys():
+                buffer += c[ALL_KEYWORD] + ' '
+            if len(x) > 2 and x[2] in c.keys():
+                c = c[x[2]]
+                if isinstance(c, dict) and ALL_KEYWORD in c.keys():
+                    buffer += c[ALL_KEYWORD] + ' '
                 else:
-                    buffer += config['commands'][input[0]][input[1]][input[2]] + ' '
-                args = ' '.join(input[3:])
+                    buffer += c + ' '
+                args = ' '.join(x[3:])
             else:
-                args = ' '.join(input[2:])
+                args = ' '.join(x[2:])
         else:
-            args = ' '.join(input[1:])
+            args = ' '.join(x[1:])
     else:
-        args = ' '.join(input)
-    return buffer + args
+        args = ' '.join(x)
+    y = buffer + args
+    if y[-1] == ' ':
+        return y[:-1]
+    else:
+        return y
 
 
 if __name__ == "__main__":
@@ -44,9 +52,9 @@ if __name__ == "__main__":
     #     sys.exit(1)
 
     config = load_config(CONFIG_FILE)
-    input = sys.argv[1:]
-    print(input)
-    command = craft_command(input, config)
+    x = sys.argv[1:]
+    print(x)
+    command = craft_command(x, config)
     print(command)
 
 # app = Flask(__name__)
