@@ -1,0 +1,11 @@
+commands:
+  git:
+    all: git
+    logadog:
+      all: log --all --decorate --oneline
+      plus: --graph
+  asusctl:
+    all: asusctl
+    pp: profile -P Performance
+    pq: profile -Q Quiet
+
