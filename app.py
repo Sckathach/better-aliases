@@ -7,7 +7,7 @@ import sys
 import os
 
 ABS_PATH = os.path.dirname(__file__)
-CONFIG_FILE = 'config.yaml'
+CONFIG_FILE = 'config_aliases.yaml'
 ALL_KEYWORD = 'all'
 
 
