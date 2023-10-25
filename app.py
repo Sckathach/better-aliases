@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 from flask import Flask
 import subprocess
 import yaml
