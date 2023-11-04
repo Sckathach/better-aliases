@@ -1,6 +1,5 @@
 #! /usr/bin/python
 
-from flask import Flask
 import subprocess
 import yaml
 import sys
@@ -27,7 +26,6 @@ def craft_command(x, config):
             buffer += c[ALL_KEYWORD] + ' '
         if len(x) > 1 and isinstance(c, dict) and x[1] in c.keys():
             c = c[x[1]]
-            # print(c)
             if isinstance(c, dict) and ALL_KEYWORD in c.keys():
                 buffer += c[ALL_KEYWORD] + ' '
             else:
@@ -40,12 +38,14 @@ def craft_command(x, config):
                     buffer += c + ' '
                 args += ' '.join(x[3:])
             else:
-                # buffer += str(c) + ' '
                 args += ' '.join(x[2:])
         else:
-            # buffer += c + ' '
             args += ' '.join(x[1:])
     else:
+        d = config['prefix']
+        for z in d.keys():
+            if x[0] in d[z]:
+                return craft_command([z] + x[1:], config)
         args += ' '.join(x)
     y = buffer + args
     if y[-1] == ' ':
@@ -55,22 +55,15 @@ def craft_command(x, config):
 
 
 if __name__ == "__main__":
-    # if len(sys.argv) < 3:
-    #     print("Usage: python custom_script.py <config_file> <command>")
-    #     sys.exit(1)
-
+    flags = {'v': False}
     config = load_config(CONFIG_FILE)
+    if '-v' in sys.argv:
+        sys.argv.remove('-v')
+        flags['v'] = True
     x = sys.argv[1:]
     command = craft_command(x, config)
-    print(command)
+    if flags['v']:
+        print(command)
+    else:
+        subprocess.run(command, shell=True, executable='/bin/bash')
 
-# app = Flask(__name__)
-#
-#
-# @app.route('/')
-# def hello_world():  # put application's code here
-#     return 'Hello World!'
-#
-#
-# if __name__ == '__main__':
-#     app.run()

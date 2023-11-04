@@ -1,11 +1,28 @@
 commands:
   git:
     all: git
-    logadog:
-      all: log --all --decorate --oneline
-      plus: --graph
+    log: log --all --decorate --oneline --graph 
   asusctl:
     all: asusctl
-    pp: profile -P Performance
-    pq: profile -Q Quiet
+    perf: profile -P Performance
+    quiet: profile -P Quiet
+    mid: profile -P Balanced
+    lumiere: -k high
+    sombre: -k low
+    noir: -k off
+  jupyter:
+    all: jupyter
+    start: ssh -N -f -L 8888:localhost:9999 root@jupyter
+    stop: "kill $(ps -aux | grep jupyter | grep -v grep | awk '{print $2}')"
+  marcel:
+    all: docker
+    boom: "sudo docker system prune -a && sudo docker volume prune -a"
+  filter:
+    all: redshift
+    jaune: -P -O 2500
+    rouge: -P -O 1000
+    bleu: -P -O 4000
+prefix:
+  asusctl: ["a", "actl", "asusctl"]
+  filter: ["f", "filter", "jaune"]
 

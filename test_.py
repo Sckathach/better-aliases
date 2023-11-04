@@ -3,9 +3,10 @@ import app
 
 commands = [
     ('git init', 'git init'),
-    ('git logadog', 'git log --all --decorate --oneline'),
-    ('git logadog plus', 'git log --all --decorate --oneline --graph'),
-    ('asusctl pp', 'asusctl profile -P Performance')
+    ('git log', 'git log --all --decorate --oneline --graph'),
+    ('a perf', 'asusctl profile -P Performance'),
+    ('docker', 'docker'),
+    ('f rouge', 'redshift -P -O 1000')
 ]
 
 config = app.load_config(app.CONFIG_FILE)
