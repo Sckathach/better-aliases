@@ -1,4 +1,4 @@
-REPOS_PATH = ~/Repos/Perso/aliases
+REPOS_PATH = ~/Repos/Perso/aliases # Should be on PATH
 
 all: test
 
