@@ -4,7 +4,8 @@ import app
 commands = [
     ('git init', 'git init'),
     ('git logadog', 'git log --all --decorate --oneline'),
-    ('git logadog plus', 'git log --all --decorate --oneline --graph')
+    ('git logadog plus', 'git log --all --decorate --oneline --graph'),
+    ('asusctl pp', 'asusctl profile -P Performance')
 ]
 
 config = app.load_config(app.CONFIG_FILE)

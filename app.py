@@ -19,28 +19,34 @@ def load_config(config_file):
 
 def craft_command(x, config):
     buffer = ''
+    args = ''
     c = config['commands']
     if len(x) > 0 and x[0] in c.keys():
         c = c[x[0]]
         if isinstance(c, dict) and ALL_KEYWORD in c.keys():
             buffer += c[ALL_KEYWORD] + ' '
-        if len(x) > 1 and x[1] in c.keys():
+        if len(x) > 1 and isinstance(c, dict) and x[1] in c.keys():
             c = c[x[1]]
+            # print(c)
             if isinstance(c, dict) and ALL_KEYWORD in c.keys():
                 buffer += c[ALL_KEYWORD] + ' '
-            if len(x) > 2 and x[2] in c.keys():
+            else:
+                args = str(c)
+            if len(x) > 2 and isinstance(c, dict) and x[2] in c.keys():
                 c = c[x[2]]
                 if isinstance(c, dict) and ALL_KEYWORD in c.keys():
                     buffer += c[ALL_KEYWORD] + ' '
                 else:
                     buffer += c + ' '
-                args = ' '.join(x[3:])
+                args += ' '.join(x[3:])
             else:
-                args = ' '.join(x[2:])
+                # buffer += str(c) + ' '
+                args += ' '.join(x[2:])
         else:
-            args = ' '.join(x[1:])
+            # buffer += c + ' '
+            args += ' '.join(x[1:])
     else:
-        args = ' '.join(x)
+        args += ' '.join(x)
     y = buffer + args
     if y[-1] == ' ':
         return y[:-1]
@@ -55,7 +61,6 @@ if __name__ == "__main__":
 
     config = load_config(CONFIG_FILE)
     x = sys.argv[1:]
-    print(x)
     command = craft_command(x, config)
     print(command)
 
