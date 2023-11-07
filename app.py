@@ -69,8 +69,8 @@ if __name__ == "__main__":
         print(command)
     else:
         try:
-            subprocess.run(command, shell=True, executable='/bin/bash', check=True)
-        except subprocess.CalledProcessorError as e:
+            subprocess.run(command, shell=True, executable='/bin/bash', check=True, stderr=subprocess.DEVNULL)
+        except subprocess.CalledProcessError as e:
             if flags['e']:
                 print(f"Erreur de commande : {e}")
             else:
