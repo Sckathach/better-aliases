@@ -55,15 +55,24 @@ def craft_command(x, config):
 
 
 if __name__ == "__main__":
-    flags = {'v': False}
+    flags = {'v': False, 'e': False}
     config = load_config(CONFIG_FILE)
     if '-v' in sys.argv:
         sys.argv.remove('-v')
         flags['v'] = True
+    if '-e' in sys.argv:
+        sys.argv.remove('-e')
+        flags['e'] = True
     x = sys.argv[1:]
     command = craft_command(x, config)
     if flags['v']:
         print(command)
     else:
-        subprocess.run(command, shell=True, executable='/bin/bash')
+        try:
+            subprocess.run(command, shell=True, executable='/bin/bash', check=True)
+        except subprocess.CalledProcessorError as e:
+            if flags['e']:
+                print(f"Erreur de commande : {e}")
+            else:
+                print(f"La commande n'existe pas sacrée biche")
 
